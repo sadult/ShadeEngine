@@ -1,0 +1,7 @@
+{
+    "LISTEN_HOST": "127.0.0.1",
+    "LISTEN_PORT": 8080,
+    "FAKE_SNI": "mci.ir",
+    "CONNECT_IP": "1.1.1.1",
+    "CONNECT_PORT": 443
+}
