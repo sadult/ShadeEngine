@@ -13,6 +13,8 @@
 [![Engine](https://img.shields.io/badge/engine-WinDivert-F72585?style=for-the-badge)](#how-it-works)
 [![Build](https://img.shields.io/badge/build-PyInstaller-FFC107?style=for-the-badge)](#building-the-windows-executable)
 
+<img src="docs/cover.png" alt="cover" width="880">
+
 </div>
 
 ---
