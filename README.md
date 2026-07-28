@@ -438,19 +438,6 @@ Any syntactically valid hostname is accepted. Whether it is useful depends entir
 
 ---
 
-## Credits
-
-| Channel | Address | Best for |
-| :-- | :-- | :-- |
-| **Telegram** | [@Bitologist](https://t.me/Bitologist) | Quick questions, feedback, commercial licensing. |
-| **GitHub** | [github.com/sadult](https://github.com/sadult) | Source, releases, other projects. |
-| **Issues** | [Report a bug](https://github.com/sadult/huckleberry/issues) | Bugs and feature requests — the preferred channel. |
-| **Email** | [mercvd@icloud.com](mailto:mercvd@icloud.com) | Security reports and anything private. |
-
-Built with [PyQt6](https://pypi.org/project/PyQt6/), [pydivert](https://pypi.org/project/pydivert/) / [WinDivert](https://reqrypt.org/windivert.html), and [PyInstaller](https://pyinstaller.org/).
-
----
-
 <div align="center">
 
 **Shade Engine** — precise SNI spoofing, one clean executable.
