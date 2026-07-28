@@ -1,14 +1,11 @@
 <div align="center">
 
 <!-- LOGO PLACEHOLDER -->
-<!-- Add your logo here. Recommended: docs/images/logo.png, transparent PNG, 512x512. -->
-<img src="docs/images/logo.png" alt="Shade Engine logo" width="140" />
+<img src="docs/logo.png" alt="Shade Engine logo" width="140" />
 
 # Shade Engine
 
 **A modern Windows SNI Spoof client with a built-in packet-injection engine.**
-
-One executable. One dark interface. Full control over the TLS Server Name Indication your traffic presents.
 
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-7B2CBF?style=for-the-badge)](#requirements)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](#development-setup)
@@ -16,40 +13,7 @@ One executable. One dark interface. Full control over the TLS Server Name Indica
 [![Engine](https://img.shields.io/badge/engine-WinDivert-F72585?style=for-the-badge)](#how-it-works)
 [![Build](https://img.shields.io/badge/build-PyInstaller-FFC107?style=for-the-badge)](#building-the-windows-executable)
 
-<!-- HERO SCREENSHOT PLACEHOLDER -->
-<!-- Add a wide screenshot of the Dashboard here. Recommended: docs/images/dashboard.png, 1600x1000. -->
-<img src="docs/images/dashboard.png" alt="Shade Engine dashboard" width="860" />
-
 </div>
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Why Shade Engine](#why-shade-engine)
-- [Feature Highlights](#feature-highlights)
-- [Interface Tour](#interface-tour)
-- [How It Works](#how-it-works)
-- [Architecture](#architecture)
-- [Repository Layout](#repository-layout)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Configuration Reference](#configuration-reference)
-- [Cloud Config](#cloud-config)
-- [Local Profiles](#local-profiles)
-- [Logging and Debug Mode](#logging-and-debug-mode)
-- [Building the Windows Executable](#building-the-windows-executable)
-- [Development Setup](#development-setup)
-- [Troubleshooting](#troubleshooting)
-- [Performance Notes](#performance-notes)
-- [Security and Responsible Use](#security-and-responsible-use)
-- [Reporting Bugs](#reporting-bugs)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [FAQ](#faq)
-- [Credits](#credits)
 
 ---
 
@@ -73,18 +37,6 @@ The result is a client where three values are decoupled:
 
 ---
 
-## Why Shade Engine
-
-Most SNI manipulation tooling on Windows is either a command-line script with no feedback, or a bundle of loose executables and driver files that users must assemble by hand. Shade Engine was built to remove that friction:
-
-- **Single executable.** The GUI and the injection engine live in the same binary. There is no `engine.exe` to lose, no PATH setup, no companion script.
-- **Visible state.** The engine's stdout and stderr stream directly into an in-app live console, so you always know whether injection is active.
-- **Editable configuration inside the app.** No manual JSON editing required, with validation on every field.
-- **A single source of truth for presets.** The Cloud Config button opens `config.md` straight from this repository, so shared settings can be updated without shipping a new build.
-- **Fully dark, palette-locked UI.** The interface enforces its own dark palette instead of inheriting the operating system theme, so no grey system panels bleed through the design.
-
----
-
 ## Feature Highlights
 
 ### Single-binary dual-mode design
@@ -97,15 +49,6 @@ The same executable serves two roles:
 | `Shade Engine.exe --engine` | Engine | Runs the packet-injection backend |
 
 When you press **Start**, the GUI spawns itself with the hidden `--engine` flag as a child process, hides the child console window on Windows, and pipes its output into the app.
-
-### Configurable fake SNI with presets
-
-The configuration editor exposes an editable combo box preloaded with common presets, and accepts any custom hostname:
-
-```text
-mci.ir        mtn.ir        rightel.ir     digikala.com
-aparat.com    varzesh3.com  snapp.ir       www.google.com
-```
 
 ### Packet-level injection through WinDivert
 
@@ -124,56 +67,12 @@ The engine does not rely on a generic TLS library. It carries byte-accurate TLS 
 
 Every engine line is timestamped, colour-tagged and rendered in the in-app terminal. Debug mode toggles verbose backend output while still surfacing genuine `ERROR:` lines when debug is off.
 
-### Fully themed, no grey fallbacks
-
-A custom application-wide `QPalette` plus a global stylesheet reset guarantees that scroll areas, stacked pages, wrapper widgets, frames and dialogs all paint dark, instead of falling back to Fusion's default light grey.
-
 ### Fail-safe configuration handling
 
 - `config.json` is created automatically with sane defaults if missing
 - Every field is validated before saving (ports must be `1-65535`, host and SNI must be non-empty)
 - Saving while the engine runs shows an explicit restart reminder
 - A one-click **Reset to defaults** and **Copy** are available
-
----
-
-## Interface Tour
-
-The app uses a frameless window with a custom title bar, a fixed sidebar and a stacked content area.
-
-| Section | Purpose |
-| --- | --- |
-| **Dashboard** | Engine status pulse, Start/Stop control, live console |
-| **Configuration** | View, edit, reload, copy config, open cloud config |
-| **Cloud Config** | Opens `config.md` from the GitHub repository |
-| **Local Profiles** | Creates and opens `profiles.txt` next to the executable |
-| **FAQ and Help** | In-app answers plus repository and issue links |
-| **Contact** | Telegram, GitHub repository, bug report shortcuts |
-| **Debug Mode** | Toggles verbose backend logging |
-| **Clear Logs** | Wipes the console buffer |
-
-<!-- SCREENSHOT PLACEHOLDERS -->
-<!--
-Add one screenshot per screen. Suggested files and sizes:
-  docs/images/dashboard.png      1600x1000  Dashboard with the engine running (green INJECTING state)
-  docs/images/configuration.png  1600x1000  Configuration page in edit mode
-  docs/images/console.png        1600x600   Live console with debug mode enabled
-  docs/images/faq.png            1600x1000  FAQ and Help page
-  docs/images/contact.png        1600x1000  Contact page
-Then replace the table below with real images.
--->
-
-<div align="center">
-
-| Dashboard | Configuration |
-| --- | --- |
-| <img src="docs/images/dashboard.png" alt="Dashboard" width="420" /> | <img src="docs/images/configuration.png" alt="Configuration" width="420" /> |
-
-| Live console | FAQ and Help |
-| --- | --- |
-| <img src="docs/images/console.png" alt="Live console" width="420" /> | <img src="docs/images/faq.png" alt="FAQ" width="420" /> |
-
-</div>
 
 ---
 
@@ -215,59 +114,6 @@ Status transitions, per-connection events and errors stream back into the GUI in
 
 ---
 
-## Architecture
-
-```text
-Shade Engine.exe
-│
-├── shade_engine.py ......... entry point / mode dispatcher
-│     ├── no flag  ──▶ gui.run_gui()
-│     └── --engine ──▶ engine_core.run_engine()
-│
-├── gui.py .................. PyQt6 desktop layer
-│     ├── MainWindow          frameless window, custom title bar, drag handling
-│     ├── NavButton           sidebar navigation with selected/idle states
-│     ├── build_dark_palette  app-wide dark palette (no grey fallbacks)
-│     ├── Config editor       validation, save, reset, copy
-│     ├── QProcess manager    starts/stops the engine child process
-│     └── Live console        colour-tagged log rendering
-│
-└── engine_core.py .......... Windows packet-injection backend
-      ├── network_tools       default IPv4 / IPv6 interface discovery
-      ├── ClientHelloMaker    TLS ClientHello build + parse + verify
-      ├── ServerHelloMaker    TLS ServerHello build + parse
-      ├── MonitorConnection   per-flow state, sequence tracking, locking
-      ├── TcpInjector         abstract WinDivert receive/inject loop
-      ├── FakeTcpInjector     fake-payload injection strategy
-      └── run_engine()        config load, asyncio proxy loop, logging
-```
-
----
-
-## Repository Layout
-
-```text
-ShadeEngine/
-├── shade_engine.py        Entry point; GUI mode or --engine mode
-├── gui.py                 PyQt6 interface, theming, config editor, process control
-├── engine_core.py         WinDivert backend, TLS templates, proxy loop
-├── config.json            Default local configuration
-├── config.md              Public cloud configuration reference
-├── requirements.txt       Python dependencies
-├── ShadeEngine.spec       PyInstaller build recipe (one-file, admin, icon, version)
-├── build.bat              Windows one-command build helper
-├── version_info.txt       Windows executable metadata
-├── .gitignore             Python / PyInstaller ignores
-├── README.md              This document
-├── assets/
-│   ├── icon.ico           Executable and window icon
-│   └── icon.png           In-app logo bitmap
-└── docs/
-    └── images/            Logo and screenshots referenced by this README
-```
-
----
-
 ## Requirements
 
 ### Runtime
@@ -296,9 +142,8 @@ Shade Engine is **Windows-only**. The backend depends on WinDivert, which has no
 
 ### Option A: Use a release build
 
-1. Download `Shade Engine.exe` from the repository releases.
-2. Place it in a writable folder; `config.json` and `profiles.txt` are created next to it.
-3. Run it and approve the Administrator prompt.
+1. Download and install `Shade-Installer.exe` from the repository releases.
+2. Run it and approve the Administrator prompt.
 
 ### Option B: Run from source
 
@@ -319,15 +164,10 @@ Run your terminal **as Administrator** when starting the engine from source.
 
 1. **Launch** Shade Engine and approve the elevation prompt.
 2. Open **Configuration** and press **Edit**.
-3. Set your values:
-   - `Listen Host`: `127.0.0.1`
-   - `Listen Port`: `8080`
-   - `Fake SNI`: for example `mci.ir`
-   - `Connect IP`: your real destination IP
-   - `Connect Port`: usually `443`
+3. Set your values for `config.js`
 4. Press **Save**.
 5. Go to **Dashboard** and press **Start**. The status pulse turns green and the console badge switches to the active state.
-6. Point your client to `127.0.0.1:8080`.
+6. Point your client to `127.0.0.1:8080` or `0.0.0.0:8080`.
 7. Enable **Debug Mode** if you want verbose backend logs.
 8. Press **Stop** to terminate the engine cleanly.
 
@@ -339,22 +179,13 @@ Configuration lives in `config.json`, in the same folder as the executable.
 
 ```json
 {
-    "LISTEN_HOST": "127.0.0.1",
-    "LISTEN_PORT": 8080,
-    "FAKE_SNI": "mci.ir",
-    "CONNECT_IP": "1.1.1.1",
+    "LISTEN_HOST": "0.0.0.0",
+    "LISTEN_PORT": 40443,
+    "FAKE_SNI": "auth.vercel.com",
+    "CONNECT_IP": "188.114.98.0",
     "CONNECT_PORT": 443
 }
 ```
-
-| Key | Type | Default | Description |
-| --- | --- | --- | --- |
-| `LISTEN_HOST` | string | `127.0.0.1` | Local address the proxy binds to. Use `127.0.0.1` unless you intentionally want LAN exposure. |
-| `LISTEN_PORT` | integer | `8080` | Local port your client connects to. Must be `1-65535` and free. |
-| `FAKE_SNI` | string | `mci.ir` | Hostname written into the spoofed TLS `server_name` extension. |
-| `CONNECT_IP` | string | `1.1.1.1` | Real upstream destination IP address. |
-| `CONNECT_PORT` | integer | `443` | Real upstream destination port. |
-
 **Validation rules enforced by the GUI**
 
 - `LISTEN_HOST`, `FAKE_SNI` and `CONNECT_IP` cannot be empty
@@ -387,14 +218,7 @@ Because the app points at a file in the repository, you can publish new presets,
 
 ## Local Profiles
 
-**Local Profiles** opens `profiles.txt` next to the executable, creating it on first use. Use it as a personal scratchpad for endpoint sets you switch between, for example:
-
-```text
-# YOUR LOCAL CONFIGS GO HERE
-# label | fake sni | connect ip | connect port
-profile-a | mci.ir      | 1.1.1.1 | 443
-profile-b | aparat.com  | 8.8.8.8 | 443
-```
+**Local Profiles** opens `profiles.txt` next to the executable, creating it on first use. Use it as a personal scratchpad for v2ray/trojan configs.
 
 The file is intentionally free-form and ignored by git.
 
@@ -616,11 +440,12 @@ Any syntactically valid hostname is accepted. Whether it is useful depends entir
 
 ## Credits
 
-Designed and developed by **@Bitologist**.
-
-- Repository: <https://github.com/sadult/ShadeEngine>
-- Issues: <https://github.com/sadult/ShadeEngine/issues>
-- Telegram: <https://t.me/Bitologist>
+| Channel | Address | Best for |
+| :-- | :-- | :-- |
+| **Telegram** | [@Bitologist](https://t.me/Bitologist) | Quick questions, feedback, commercial licensing. |
+| **GitHub** | [github.com/sadult](https://github.com/sadult) | Source, releases, other projects. |
+| **Issues** | [Report a bug](https://github.com/sadult/huckleberry/issues) | Bugs and feature requests — the preferred channel. |
+| **Email** | [mercvd@icloud.com](mailto:mercvd@icloud.com) | Security reports and anything private. |
 
 Built with [PyQt6](https://pypi.org/project/PyQt6/), [pydivert](https://pypi.org/project/pydivert/) / [WinDivert](https://reqrypt.org/windivert.html), and [PyInstaller](https://pyinstaller.org/).
 
@@ -631,6 +456,5 @@ Built with [PyQt6](https://pypi.org/project/PyQt6/), [pydivert](https://pypi.org
 **Shade Engine** — precise SNI spoofing, one clean executable.
 
 <!-- FOOTER BANNER PLACEHOLDER -->
-<!-- Optional: add a wide banner at docs/images/banner.png, 1600x400, for extra polish. -->
 
 </div>
